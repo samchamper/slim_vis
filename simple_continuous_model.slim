@@ -1,0 +1,54 @@
+// Keywords: continuous space, continuous spatial landscape, reprising boundaries
+
+initialize() {
+	initializeSLiMOptions(dimensionality="xy");
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+}
+1 late() {
+	sim.addSubpop("p1", 500);
+	
+	// initial positions are random in ([0,1], [0,1])
+	p1.individuals.x = runif(p1.individualCount);
+	p1.individuals.y = runif(p1.individualCount);
+}
+modifyChild() {
+	// draw a child position near the first parent, within bounds
+	do child.x = parent1.x + rnorm(1, 0, 0.02);
+	while ((child.x < 0.0) | (child.x > 1.0));
+	
+	do child.y = parent1.y + rnorm(1, 0, 0.02);
+	while ((child.y < 0.0) | (child.y > 1.0));
+	
+	return T;
+}
+
+//// SET OUTPUT PATH FOR VISUALIZATION  FUNCTION:
+1 early() {
+    defineConstant("OUTPUT_PATH", getwd() + "/slim_movie");
+    deleteFile(OUTPUT_PATH);
+}
+//// VISUALIZATION FUNCTION:
+late() {
+    all = sim.subpopulations.individuals;
+    if (size(all) < 1)
+        return;
+    output_str = "G";
+    for (ind in all) {
+        if (ind.color == "")
+            ind.color = "blue";
+        ind_colors = color2rgb(ind.color);
+        hex_x = format("%.3x ", asInteger(ind.x * 4095 + 0.5));
+        hex_y = format("%.3x ", asInteger(ind.y * 4095 + 0.5));
+        hex_r = format("%.2x ", asInteger(255 * ind_colors[0]));
+        hex_g = format("%.2x ", asInteger(255 * ind_colors[1]));
+        hex_b = format("%.2x",  asInteger(255 * ind_colors[2]));
+        output_str = output_str + "\n" +  hex_x + hex_y + hex_r + hex_g + hex_b;
+    }
+    writeFile(OUTPUT_PATH, output_str, T);
+}
+
+2000 late() { sim.outputFixedMutations(); }

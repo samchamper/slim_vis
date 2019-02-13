@@ -1,0 +1,84 @@
+// A modified version of recipe 14.2 - Spatial competition, from the SLiM manual.
+// Code is added to output to a python readable file with spatial positions of individuals.
+
+initialize() {
+	initializeSLiMOptions(dimensionality="xy");
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+	
+	// Set up an interaction for spatial competition
+	initializeInteractionType(1, "xy", reciprocal=T, maxDistance=0.3);
+	i1.setInteractionFunction("n", 3.0, 0.1);
+}
+1 late() {
+	sim.addSubpop("p1", 2000);
+	
+	// initial positions are random in ([0,1], [0,1])
+	p1.individuals.x = runif(p1.individualCount);
+	p1.individuals.y = runif(p1.individualCount);
+    p1.individuals.color = rgb2color(c(0, 0, 1.0));
+
+}
+late() {
+	// evaluate interactions before fitness calculations
+	i1.evaluate();
+}
+fitness(NULL) {
+	// spatial competition
+	totalStrength = i1.totalOfNeighborStrengths(individual);
+	fitness_val = 1.1 - totalStrength / p1.individualCount;
+    color_val = 10 * (1 - fitness_val);
+    if (color_val > 1)
+        color_val = 1;
+    individual.color = rgb2color(c(0.0 + color_val, 0.0 + color_val, 1 - color_val));
+	return 1.1 - totalStrength / p1.individualCount;
+}
+modifyChild() {
+	// draw a child position near the first parent, within bounds
+	do child.x = parent1.x + rnorm(1, 0, 0.02);
+	while ((child.x < 0.0) | (child.x > 1.0));
+	
+	do child.y = parent1.y + rnorm(1, 0, 0.02);
+	while ((child.y < 0.0) | (child.y > 1.0));
+
+	totalStrength = i1.totalOfNeighborStrengths(child);
+	fitness_val = 1.1 - totalStrength / p1.individualCount;
+    color_val = 10 * (1 - fitness_val);
+    if (color_val > 1)
+        color_val = 1;
+    child.color = rgb2color(c(0.0 + color_val, 0.0 + color_val, 1 - color_val));
+
+	return T;
+}
+
+//// SET OUTPUT PATH FOR VISUALIZATION  FUNCTION:
+1 early() {
+    defineConstant("OUTPUT_PATH", getwd() + "/slim_movie");
+    deleteFile(OUTPUT_PATH);
+}
+//// VISUALIZATION FUNCTION:
+late() {
+    all = sim.subpopulations.individuals;
+    output_str = "G";
+    for (ind in all) {
+        if (ind.color == "")  // Sentinal in case ind.color is not assigned.
+            ind.color = "#0000FF";
+        hex_x = format("%.3x ", asInteger(ind.x * 4095 + 0.5));
+        hex_y = format("%.3x ", asInteger(ind.y * 4095 + 0.5));
+        r = substr(ind.color, 1, 2) + " ";
+        g = substr(ind.color, 3, 4) + " ";
+        b = substr(ind.color, 5, 6);
+        output_str = output_str + "\n" +  hex_x + hex_y + r + g + b;
+    }
+    writeFile(OUTPUT_PATH, output_str, T);
+}
+late() {
+    print(sim.generation);
+}
+150 late() {
+    sim.outputFixedMutations();
+}
+
