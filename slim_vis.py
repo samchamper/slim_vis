@@ -17,47 +17,54 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
 
-
-def animate(i):
-    ax.clear()
-    ax.set_title("Gen {}".format(i))
-    ax.set_ylim(0, 1)
-    ax.set_xlim(0, 1)
-    ax.scatter(xs[i], ys[i], color=cs[i], s=individual_size)
+# CONFIGURATION GLOBALS - CHANGE THESE TO CHANGE PROGRAM BEHAVIOR:
+FPS = 10
+INDIVIDUAL_SIZE = 3
 
 
-# Some parameters that one might want to tweak:
-fps = 10
-individual_size = 3
-filename = "slim_movie"
-if len(sys.argv) > 1:
-    # Get file name from command line.
-    filename = sys.argv[1]
+def animate(i, subplot, xs, ys, cs):
+    subplot.clear()
+    subplot.set_title("Gen {}".format(i))
+    subplot.set_ylim(0, 1)
+    subplot.set_xlim(0, 1)
+    subplot.scatter(xs[i], ys[i], color=cs[i], s=INDIVIDUAL_SIZE)
 
-# Read and parse data from the file into a list of
-# x coords, y coords, and colors for each generation:
-with open(filename, 'r') as f:
-    data = f.read()
-data = data[1:].split('G\n')
-for gen in range(len(data)):
-    data[gen] = data[gen][1:-1].split('\n')
-xs = [[] for _ in range(len(data))]
-ys = [[] for _ in range(len(data))]
-cs = [[] for _ in range(len(data))]
-for gen in range(len(data)):
-    for ind in range(len(data[gen])):
-        split = data[gen][ind].split()
-        xs[gen].append(int(split[0], 16) / 4095)
-        ys[gen].append(int(split[1], 16) / 4095)
-        cs[gen].append([int(split[2], 16) / 255, int(split[3], 16) / 255, int(split[4], 16) / 255])
 
-# Create and configure a matplotlib figure,
-# then call the animation function using the data:
-style.use('dark_background')
-fig = plt.figure(figsize=(6, 6))
-ax = fig.add_subplot(1, 1, 1)
-anim = animation.FuncAnimation(fig, animate, frames=len(data), interval=1000/fps)
+def main():
+    # Some parameters that one might want to tweak:
+    filename = "slim_movie"
+    if len(sys.argv) > 1:
+        # Get file name from command line.
+        filename = sys.argv[1]
 
-# Save the animation, and then display it in a window.
-anim.save('{}.mp4'.format(filename), writer=animation.writers['ffmpeg'](fps=fps))
-plt.show()
+    # Read and parse data from the file into a list of
+    # x coords, y coords, and colors for each generation:
+    with open(filename, 'r') as f:
+        data = f.read()
+    data = data[1:].split('G\n')
+    for gen in range(len(data)):
+        data[gen] = data[gen][1:-1].split('\n')
+    xs = [[] for _ in range(len(data))]
+    ys = [[] for _ in range(len(data))]
+    cs = [[] for _ in range(len(data))]
+    for gen in range(len(data)):
+        for ind in range(len(data[gen])):
+            split = data[gen][ind].split()
+            xs[gen].append(int(split[0], 16) / 4095)
+            ys[gen].append(int(split[1], 16) / 4095)
+            cs[gen].append([int(split[2], 16) / 255, int(split[3], 16) / 255, int(split[4], 16) / 255])
+
+    # Create and configure a matplotlib figure,
+    # then call the animation function using the data:
+    style.use('dark_background')
+    fig = plt.figure(figsize=(6, 6))
+    subplot = fig.add_subplot(1, 1, 1)
+    anim = animation.FuncAnimation(fig, animate, frames=len(data), interval=1000/FPS, fargs=(subplot, xs, ys, cs))
+
+    # Save the animation, and then display it in a window.
+    anim.save('{}.mp4'.format(filename), writer=animation.writers['ffmpeg'](fps=FPS))
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
