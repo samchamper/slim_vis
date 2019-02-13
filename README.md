@@ -2,10 +2,13 @@
 
 Simple python matplotlib script for visualizing and saving the output of a SLiM spatial simulation.
 
-# Author: Sam Champer
+# Author: 
+
+Sam Champer
 
 # Requirements:
 python3
+
 ffmpeg (ffmpeg.org)
 
 # Usage:
