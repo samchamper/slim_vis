@@ -23,6 +23,9 @@ INDIVIDUAL_SIZE = 3
 
 
 def animate(i, subplot, xs, ys, cs):
+    """
+    Update the animation each frame with the data for that generation.
+    """
     subplot.clear()
     subplot.set_title("Gen {}".format(i))
     subplot.set_ylim(0, 1)
@@ -31,7 +34,15 @@ def animate(i, subplot, xs, ys, cs):
 
 
 def main():
-    # Some parameters that one might want to tweak:
+    """
+    Program flow:
+    1. Open file with position and color data output from slim.
+    2. Parse data into lists for x coords, y coords, and colors.
+    3. Make matplotlib plot with an animation function that uses the data.
+    4. Export the plot as an mp4.
+    5. Display the plot in a window.
+    """
+    # Default filenae.
     filename = "slim_movie"
     if len(sys.argv) > 1:
         # Get file name from command line.
@@ -50,9 +61,10 @@ def main():
     for gen in range(len(data)):
         for ind in range(len(data[gen])):
             split = data[gen][ind].split()
-            xs[gen].append(int(split[0], 16) / 4095)
-            ys[gen].append(int(split[1], 16) / 4095)
-            cs[gen].append([int(split[2], 16) / 255, int(split[3], 16) / 255, int(split[4], 16) / 255])
+            if len(split) > 0:  # Skip empty generations.
+                xs[gen].append(int(split[0], 16) / 4095)
+                ys[gen].append(int(split[1], 16) / 4095)
+                cs[gen].append([int(split[2], 16) / 255, int(split[3], 16) / 255, int(split[4], 16) / 255])
 
     # Create and configure a matplotlib figure,
     # then call the animation function using the data:
