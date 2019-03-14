@@ -12,7 +12,7 @@ python3
 ffmpeg (ffmpeg.org)
 
 ## Usage:
-1. First, generate a file that this program can read. See: https://github.com/samchamper/slim_vis/blob/master/generating_slim_output.txt
+1. First, generate a file that this program can read. See: https://github.com/samchamper/slim_vis/blob/master/generating_slim_output.md
 
 2. Run ``make install`` and then ``make run`` to visualize the SLiM run.
 
