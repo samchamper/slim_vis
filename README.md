@@ -25,9 +25,11 @@ Sam Champer
 1. Run the following command to install python dependencies:
 ```pipenv install```
 Then you can run the program via:
-```pipenv run vis``
+```pipenv run vis```
 You can add an optional command line argument if the movie data file doesn't have the default filename "slim_movie":
 ```pipenv run vis name_of_movie_data_file.txt```
+
+* Alternatively, you may want to use make to install and run. Use ``make install`` and then ``make run``.
 
 ## Notes:
 Adding the code to slim to export data to a file that can be read by this program greatly increases SLiM's
