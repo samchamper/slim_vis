@@ -4,7 +4,7 @@ Generate output that can be read by this program by adding one of the following 
 
 ##### OPTION 1. For slim code that uses colors that are strings, like "blue", "red", etc..
 ```C
-//// SET OUTPUT PATH FOR VISUALIZATION  FUNCTION:
+//// SET OUTPUT PATH FOR VISUALIZATION FUNCTION:
 1 early() {
     defineConstant("OUTPUT_PATH", getwd() + "/slim_movie");
     deleteFile(OUTPUT_PATH);
@@ -31,7 +31,7 @@ late() {
 
 ##### OPTION 2. For slim code that uses colors that are hex codes, such as "#FFFF00":
 ```C
-//// SET OUTPUT PATH FOR VISUALIZATION  FUNCTION:
+//// SET OUTPUT PATH FOR VISUALIZATION FUNCTION:
 1 early() {
     defineConstant("OUTPUT_PATH", getwd() + "/slim_movie");
     deleteFile(OUTPUT_PATH);
