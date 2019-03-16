@@ -45,6 +45,9 @@ pipenv run vis
 pipenv run vis -src data_file.txt -fps 8 -s 4 -dim 1080
 ```
 
+* Alternate install flow: dependencies can also be installed using venv, though it's less cool.
+    To do so, run ``make install`` and then to run the program, run ``make run``.
+
 ## Notes:
 Adding the code to slim to export data to a file that can be read by this program greatly increases SLiM's
 runtime - by as much as a factor of 2. File I/O is slow.
