@@ -1,6 +1,7 @@
 # slim_vis
 
 A simple python matplotlib script for visualizing and saving the output of a SLiM spatial simulation.
+For information on the SLiM modelling framework, see https://messerlab.org/slim/.
 
 SLiM already has a visualization/GUI for use on Mac computers. However, for visualizing SLiM runs in a
 linux environment, when doing remote computation, or even just when it is desirable to export a
