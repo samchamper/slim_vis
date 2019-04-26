@@ -60,9 +60,11 @@ def main():
 
     print("Generating animation...")
     # Create and configure a matplotlib figure, then call the animation function using the data:
-    style.use('dark_background')
+    style.use('default')
     fig = plt.figure(figsize=(dimensions/100, dimensions/100))
     subplot = fig.add_subplot(1, 1, 1)
+    subplot.xaxis.set_visible(False)
+    subplot.yaxis.set_visible(False)
     anim = animation.FuncAnimation(fig, animate, frames=len(data), interval=1000/fps, fargs=(subplot, xs, ys, cs))
 
     # Save the animation, and then display it in a window.
