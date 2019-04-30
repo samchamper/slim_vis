@@ -37,13 +37,13 @@ pipenv run vis
 * Optional command line arguments (don't actually include the "<>" brackets):
 1. ``-src <filename>`` to specify the source. Default ``slim_movie``
 1. ``-fps <number>`` to specify the fps of the animation. Each frame is a generation, 
-    so this is also generations per second. Default 8.
-1. ``-s`` individual size. Increases for very small populations, decrease for large ones. Default 3.
-1. ``-dim`` The dimensions of the output. Default is 1000, resulting in a 1000*1000 animation.
+    so this is also generations per second. Default 2.
+1. ``-s`` individual size. Increases for very small populations, decrease for large ones. Default 5.
+1. ``-dim`` The dimensions of the output. Default is 1080, resulting in a 1080*1080 animation.
 
 * For example:
 ```
-pipenv run vis -src data_file.txt -fps 8 -s 4 -dim 1080
+pipenv run vis -src data_file.txt -fps 8 -s 2 -dim 1536
 ```
 
 * Alternate install flow: dependencies can also be installed using venv, though it's less cool.
