@@ -66,7 +66,7 @@ def main():
     subplot.xaxis.set_visible(False)
     subplot.yaxis.set_visible(False)
     anim = animation.FuncAnimation(fig, animate, frames=len(data), interval=1000/fps, fargs=(subplot, xs, ys, cs))
-
+    fig.tight_layout(pad=2.5)
     # Save the animation, and then display it in a window.
     anim.save('{}.mp4'.format(source), writer=animation.writers['ffmpeg'](fps=fps))
     # plt.show()  # Not particularly useful to show the plot after outputting the movie, but might have a purpose?
