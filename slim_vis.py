@@ -78,11 +78,11 @@ if __name__ == "__main__":
     parser.add_argument('-src', '--source', default="slim_movie", type=str,
                         help='File containing positional data. Default slim_movie')
     parser.add_argument('-fps', '--fps', default=2, type=int,
-                        help='Frames (generations) per sec for the animation. Default 8.')
+                        help='Frames (generations) per sec for the animation. Default 2.')
     parser.add_argument('-s', '--individual_size', default=5, type=int,
-                        help='Dot size of individuals. Lower this for high pops, or things will be messy. Default 3.')
+                        help='Dot size of individuals. Lower this for high pops, or things will be messy. Default 5.')
     parser.add_argument('-dim', '--dimensions', default=1080, type=int,
-                        help='Dimensions of the animation. Default 1000 (1000*1000 animation).')
+                        help='Dimensions of the animation. Default 1000 (1080*1080 animation).')
     args = parser.parse_args()
     fps = args.fps
     dimensions = args.dimensions

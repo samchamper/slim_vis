@@ -19,6 +19,7 @@ Sam Champer
 * ffmpeg (ffmpeg.org; you will need to add ffmpeg to your path if you are on windows.
     See: https://www.wikihow.com/Install-FFmpeg-on-Windows)
 * pipenv (after installing python, run ``pip install pipenv``)
+* The matplotlib library for python requires Tk for python. In linux with apt-get, install this by ``sudo apt-get install python3-tk``
 
 ## Installation and Usage:
 1. First, generate a file that this program can read.
@@ -36,7 +37,7 @@ pipenv run vis
 ```
 * Optional command line arguments (don't actually include the "<>" brackets):
 1. ``-src <filename>`` to specify the source. Default ``slim_movie``
-1. ``-fps <number>`` to specify the fps of the animation. Each frame is a generation, 
+1. ``-fps <number>`` to specify the fps of the animation. Each frame is a generation,
     so this is also generations per second. Default 2.
 1. ``-s`` individual size. Increases for very small populations, decrease for large ones. Default 5.
 1. ``-dim`` The dimensions of the output. Default is 1080, resulting in a 1080*1080 animation.
