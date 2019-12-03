@@ -29,7 +29,7 @@ Sam Champer
 
 1. Run the following command to install python dependencies:
 ```
-pipenv install
+pipenv install --three
 ```
 Then you can run the program via:
 ```

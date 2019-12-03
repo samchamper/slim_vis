@@ -60,7 +60,10 @@ def main():
 
     print("Generating animation...")
     # Create and configure a matplotlib figure, then call the animation function using the data:
-    style.use('default')
+    if dark:
+        style.use('dark_background')
+    else:
+        style.use('default')
     fig = plt.figure(figsize=(dimensions/100, dimensions/100))
     subplot = fig.add_subplot(1, 1, 1)
     subplot.xaxis.set_visible(False)
@@ -82,10 +85,13 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--individual_size', default=5, type=int,
                         help='Dot size of individuals. Lower this for high pops, or things will be messy. Default 5.')
     parser.add_argument('-dim', '--dimensions', default=1080, type=int,
-                        help='Dimensions of the animation. Default 1000 (1080*1080 animation).')
+                        help='Dimensions of the animation. Default 1080 (1080*1080 animation).')
+    parser.add_argument('-dark', '--dark_background', dest='dark', action='store_true', default=False,
+                        help='Toggle to a simulation with a dark background.')
     args = parser.parse_args()
     fps = args.fps
     dimensions = args.dimensions
     individual_size = args.individual_size
     source = args.source
+    dark = args.dark
     main()
